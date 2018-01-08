@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<title>index</title>
+<!--/*/<th:block th:include="fragments/include::include">/*/-->
+<!--/*/</th:block>/*/-->
+</head>
+<body class="sticky-header">
+ <div>
+		<div id="header" th:include="fragments/header::header"></div>
+		<div>
+			<div id="leftnav" th:include="fragments/left::menu"></div>
+			
+			<div id="content" th:include="fragments/right::right"></div>
+		</div>
+</div>
+ <!--/*/<th:block th:include="fragments/include::js">/*/-->
+<!--/*/</th:block>/*/-->
+ 
+</body>
+</html>
