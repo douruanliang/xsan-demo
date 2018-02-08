@@ -1,0 +1,217 @@
+<div class="modal-dialog ">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">用户信息</h4>
+		</div>
+		<div class="modal-body">
+
+			<form id="form-wizard" enctype="multipart/form-data" name="form-wizard" class="form-horizontal" th:object="${userDto}">
+				<input id="id" type="hidden" name="id" th:value="${userDto.id}" readonly="readonly" />
+			    <input id="flag" type="hidden" name="flag" th:value="${userDto.flag}" readonly="readonly" />
+				<input id="token" type="hidden" name="token" th:value="${userDto.token}" readonly="readonly" /> 
+					
+				<div class="panel">
+                            <div class="panel-body">
+                                <div class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="thumb media-object"  width="100" heigh="100" th:src="@{show-avatar-id?width=100&amp;height=100&amp;(id=${userDto.id})}"  alt="" />
+                                    </a>
+                                    <div class="media-body">
+                                        <div class="form-group">
+											<label class="col-lg-3 col-sm-2 control-label">用户序号</label>
+											<div class="col-lg-9">
+												<input class="form-control" id="userIndex" onfocus="this.blur();" type="number"
+													name="userIndex" min="0" max="999999999"
+													th:value="${userDto.userIndex==null? 1:(userDto.userIndex)}" />
+											</div>
+				                        </div>
+										<div class="form-group">	
+												<label class="col-lg-3 col-sm-2 control-label">登录名称</label>
+												<div class="col-lg-9">
+													<input class="form-control required" id="loginName" type="text"
+														name="loginName" placeholder="请输入登录名称长度需在6~20之间"
+														th:value="${userDto.loginName}" />
+												</div>
+										</div>
+										<div class="form-group">	
+											<label class="col-lg-3 col-sm-2 control-label">真实姓名</label>
+											<div class="col-lg-9">
+												<input class="form-control required" id="userName" type="text" name="userName"
+													placeholder="请输入真实姓名" th:value="${userDto.userName}"
+													 />
+											</div>
+										</div>
+                                 
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                </div>	
+	
+				
+				<div class="form-group">	
+					<label class="col-lg-2 col-sm-2 control-label">邮箱地址</label>
+					<div class="col-lg-10">
+						<input class="form-control" id="email" type="text" name="email" 
+							placeholder="email@example.com" th:value="${userDto.email}" />
+					</div>
+				</div>	
+				<div class="form-group">	
+					<label class="col-lg-2 col-sm-2 control-label">手机号码 </label>
+					<div class="col-lg-10">
+						<input class="form-control" id="phoneNum" type="text" name="phoneNum"
+							placeholder="请输入手机号码" th:value="${userDto.phoneNum}" />
+					</div>
+				</div>	
+				<div class="form-group">	
+					<label class="col-lg-2 col-sm-2 control-label">用户状态 </label>
+					<div class="col-lg-10" th:if="${userDto.id}==null">
+					   <div class="col-lg-3"><input type="radio" name="state" value="0" th:checked="false">未激活</input></div>
+					   <div class="col-lg-3"><input type="radio" name="state" value="1" th:checked="true">已激活</input></div>
+					</div>
+					<div class="col-lg-10" th:if="${userDto.id}!=null">
+						<div class="col-lg-3"><input type="radio" name="state" value="0"
+							th:checked="${userDto.state}== 0? true:false">未激活</input> </div>
+						<div class="col-lg-3"><input type="radio" name="state" value="1"
+							th:checked="${userDto.state}== 1? true:false">已激活</input> </div>
+					</div>
+				   
+				</div>		
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button id="reset" type="button" class="btn btn-default"
+				data-dismiss="modal">关闭</button>
+			<button id="saveButton" type="button" class="btn btn-primary">提交</button>
+		</div>
+	</div>
+</div>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(function() {
+
+		$('#form-wizard')
+				.bootstrapValidator(
+						{
+							//		        live: 'disabled',
+							message : 'This value is not valid',
+							feedbackIcons : {
+								valid : 'glyphicon glyphicon-ok',
+								invalid : 'glyphicon glyphicon-remove',
+								validating : 'glyphicon glyphicon-refresh'
+							},
+							fields : {
+								userIndex : {
+									validators : {
+										notEmpty : {
+											message : '序号必填'
+										},
+										lessThan : {
+											value : 100,
+											inclusive : true,
+											message : '序号最大100'
+										}
+									}
+								},
+								loginName : {
+									validators : {
+										notEmpty : {
+											message : '登录名必填'
+										},
+										stringLength : {
+											min : 6,
+											max : 20,
+											message : '登录名长度必须6-20字符'
+										},
+										regexp : {
+											regexp : /^[_a-zA-Z0-9-]+$/,
+											message : '不能输入中文和特殊字符'
+										}
+									}
+								},
+								userName : {
+									validators : {
+										notEmpty : {
+											message : '真实姓名必填'
+										},
+										stringLength : {
+											min : 2,
+											max : 60,
+											message : '真实姓名为1-30字符'
+										},
+										regexp : {
+											regexp : /^[\u4e00-\u9fa5a-zA-Z·]+$/,
+											message : '不能输入数字和特殊字符'
+										}
+									}
+								},
+								email : {
+									validators : {
+										emailAddress : {
+											message : '邮箱不正确'
+										}
+									}
+								},
+								phoneNum : {
+									validators : {
+										stringLength : {
+											min : 11,
+											max : 11,
+											message : '手机号为11位'
+										},
+										regexp : {
+											regexp : /^0?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/,
+											message : '手机号不正确'
+										}
+									}
+								},
+								/* state : {
+									validators : {
+										notEmpty : {
+											message : '用户状态未选择'
+										}
+									}
+								}, */
+							}
+						});
+
+		//提交按钮,所有验证通过方可提交
+		$("#saveButton").click(
+						function() {
+							var flag = $('#form-wizard').bootstrapValidator(
+									'validate').data('bootstrapValidator')
+									.isValid();
+							if (flag) {
+								var models = new Array();
+								var str = $('#form-wizard').serializeObject();
+								models.push(str);
+								$.post("sys/user-save.json",
+												{
+													models : JSON
+															.stringify(models)
+												},
+												function(result) {
+													//如果保存不成功的提示 原因
+													if (!result.ajaxResultJson.success) {
+														var warn = result.ajaxResultJson.msg;
+														if (warn != null) {
+															//自行处理
+															return;
+														}
+													} else {
+														$('#Modal').modal('hide');
+														refreshFunction();
+													}
+													
+													layer.msg(result.ajaxResultJson.msg);
+												});
+							}
+
+						});
+
+	});
+
+	/*]]>*/
+</script>

@@ -8,16 +8,91 @@
 <!--/*/</th:block>/*/-->
 </head>
 <body class="sticky-header">
- <div>
-		<div id="header" th:include="fragments/header::header"></div>
-		<div>
+
+
+	<section>
+		<!-- left side start-->
+		<div class="left-side sticky-left-side">
+			<!--logo and iconic logo start-->
+			<div class="logo">
+				<a href="###"><img src="images/logo.png" alt="" /></a>
+			</div>
+			<div class="logo-icon text-center">
+				<a href="###"><img src="images/logo_icon.png" alt="" /></a>
+			</div>
+			<!--logo and iconic logo end-->
+
 			<div id="leftnav" th:include="fragments/left::menu"></div>
-			
-			<div id="content" th:include="fragments/right::right"></div>
 		</div>
-</div>
+		<!-- left side end-->
+		<!-- main content start-->
+		<div class="main-content" id="main">
+			<!-- header section start-->
+			<div class="header-section">
+				<!--toggle button start-->
+				<a class="toggle-btn"><i class="fa fa-bars"></i></a>
+				<!--toggle button end-->
+
+
+			</div>
+			<!-- header section end-->
+
+			<!-- page heading start-->
+			<section class="content-header">
+				<h1 id="breadcrumb_title">
+					服务管理 s<small>列表</small>
+				</h1>
+				<ol class="breadcrumb" id="breadcrumb">
+					<li><a href=""><i class="fa fa-home"></i> 首页</a></li>
+					<li class="active">服务</li>
+				</ol>
+			</section>
+			<!-- page heading end-->
+
+			<!--body wrapper start-->
+			<div class="wrapper" id="wrapper"></div>
+			
+			<!--body wrapper end-->
+
+			<!--footer section start-->
+			<footer> 2017 &copy;dourkxxxx </footer>
+			<!--footer section end-->
+
+
+		</div>
+		<!-- main content end-->
+	</section>	
+
  <!--/*/<th:block th:include="fragments/include::js">/*/-->
 <!--/*/</th:block>/*/-->
+  
+  <script id="breadcrumb-template" type="text/x-handlebars-template">
+    <li><a href="/"><i class="fa fa-home"></i> 首页</a></li>
+	<li class="">{{root}}</li>
+    <li class="current" onclick="load('{{url}}')">{{sub}}</li>
+</script>
+ 
+ 
+   <script type="text/javascript">
+		/*<![CDATA[*/
+		  //默认加载右侧内容
+	function load(url){
+		$("#wrapper").load(url);
+	}
+		//切换面包屑导航
+	function breadcrumb(root,sub,url){
+			alert(sub);
+		var data={};
+		data.root=root;
+		data.sub=sub;
+		data.url=url;
+		$('#breadcrumb_title').text(sub);
+	    var myTemplate = Handlebars.compile($("#breadcrumb-template").html());
+				$('#breadcrumb').html(myTemplate(data));  
+	}
+		/*]]>*/
+		</script>
+ 
  
 </body>
 </html>

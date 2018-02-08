@@ -21,7 +21,6 @@
 		  <artifactId>springboot-security-core</artifactId>
 		  <version>${my.security.version}</version>
 		</dependency>
-    
 
 		<!-- <dependency> <groupId>org.springboot.security</groupId> <artifactId>springboot-security-app</artifactId> 
 			<version>${my.security.version}</version> </dependency> -->

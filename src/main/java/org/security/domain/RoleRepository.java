@@ -14,6 +14,15 @@ public interface  RoleRepository extends JpaRepository<Role, String>,
 		JpaSpecificationExecutor<Role>,PagingAndSortingRepository<Role, String>{
 	
 	/**
+	 * 
+	 * @Description: 根据角色名称获取菜单
+	 * @param roleId
+	 * @date 2018年1月8日
+	 */
+	@Query("SELECT u.menus FROM Role u WHERE u.roleName = :roleName")
+	List<Menu> findMenuByRoleName(@Param("roleName") String roleName);
+	
+	/**
 	 * 根据角色id查询菜单集合
 	 * @param roleId
 	 * @return
@@ -43,6 +52,9 @@ public interface  RoleRepository extends JpaRepository<Role, String>,
 	 */
 	@Query("select r from Role r where r.roleName = :roleName and r.id!= :id and r.flag=1")
 	List<Role> findByRoleName(@Param("roleName") String roleName,@Param("id") String id);
+	
+	@Query("select r from Role r where r.roleName = :roleName and r.flag=1")
+	Role findByRoleName(@Param("roleName") String roleName);
 	
 	Role  findByRoleNameAndFlag(@Param("roleName") String roleName,@Param("flag") int flag);
 }
